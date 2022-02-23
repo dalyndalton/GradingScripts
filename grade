@@ -14,6 +14,7 @@ err=${file%.*}.txt
 # Removes previous error file if it exists
 rm $err 2>/dev/null
 
+code "$file" -r
 # compile using gcc
 # only displays erros in compiling
 gcc "$file" -o "$exe" -lm >/dev/null 2>>"$err"

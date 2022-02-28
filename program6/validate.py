@@ -4,8 +4,10 @@ from time import sleep
 from typing import List, Set, Tuple
 
 
-def fail(x: int, y: int, current: str):
+def fail(x: int, y: int, current: str, grid):
     print(f"Board is invalid, see position [{x},{y}], should be {current}")
+    for line in grid:
+        print(line)
 
 
 def sucess():
@@ -24,14 +26,9 @@ def getneighbor(x: int, y: int, grid: List[List[str]]):
 
 grid: List[List[str]] = []
 
-if len(sys.argv) == 2:
-    with open("test.txt") as file:
-        for line in file:
-            grid.append(line.split())
-else:
-    # Grab board from stdin
-    for line in sys.stdin:
-        grid.append(line.split())
+# Grab board from stdin
+for line in sys.stdin:
+    grid.append(line.split())
 
 
 # Check to see if A starts in top right
@@ -40,8 +37,6 @@ current: str = "A"
 x: int = 0
 y: int = 0
 
-for line in grid:
-    print(line)
 while True:
     # Check whether letter is correct
     if current != grid[x][y]:
@@ -61,7 +56,7 @@ while True:
     if current not in neighbors:
         # if the next element isn't found, check for empty neighbors
         if "." in neighbors:
-            fail(x, y, current)
+            fail(x, y, current, grid)
             break
         else:
             # check to see if all have been visited
@@ -71,7 +66,7 @@ while True:
                         if (x + 1, y) in used or x + 1 >= 10:
                             sucess()
                             break
-            fail(x, y, current)
+            fail(x, y, current, grid)
             break
 
     direction = neighbors.index(current)

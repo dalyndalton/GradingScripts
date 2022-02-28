@@ -1,7 +1,9 @@
 # ECE 1400 Grading Scripts
 
 These scripts are meant to be used for speeding up the grading process for ECE 1400
-students. Included currently are 2 scripts, `grade` and `grade_all.sh` (wip).
+students. Included currently are 2 scripts, `grade` and `grade_all.sh` (wip).\
+
+For grading scripts created in visual studio, the `grade.ps1` and `grade_all.ps1` scripts will work. Add them to your windows system path and run them from the Visual Studio Developer powershell.
 
 ## `Grade`
 

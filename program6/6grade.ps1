@@ -1,27 +1,18 @@
 # SPECIAL GRADER FOR PROGRAM 6 ONLY
-[CmdletBinding()]
-param (
-    [Parameter(Mandatory=$true, Position=0)]
-    [System.IO.File] $in
-
-    [Parameter(Position=1)]
-)
-
 
 $in = $args[0]
-$inputFile = $args[1]
 
 # Compile and run with test input found in .\input.txt
 $exe = ".\" + (Get-Item $in).BaseName + ".exe"
 
 # Only Error's and Warning during compile time are displayed.
-cl $in 1> $null 4> $null 5> $null 6> $null 
+cl $in /nologo 1> $null 4> $null 5> $null 6> $null 
 
-$exe | python validate.py
+& $exe | python -m validate
 Start-Sleep -s 1
-$exe | python validate.py
+& $exe | python -m validate
 Start-Sleep -s 1
-$exe | python validate.py
+& $exe | python -m validate
 
 # Character limit break
 $data = Get-Content $in

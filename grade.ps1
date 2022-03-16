@@ -1,28 +1,36 @@
-[CmdletBinding()]
-param (
-    [Parameter(Mandatory=$true, Position=0)]
-    [System.IO.File] $in
-
-    [Parameter(Position=1)]
-)
-
-
 $in = $args[0]
-$inputFile = $args[1]
+$stdin = $args[1]
 
+
+code $in -r
+$item = Get-Item $in
 # Compile and run with test input found in .\input.txt
-$exe = ".\" + (Get-Item $in).BaseName + ".exe"
+$exe = ".\" + ($item).BaseName + ".exe"
+$name = "`"" + $item.BaseName + ".c" + "`""
 
 # Only Error's and Warning during compile time are displayed.
-cl $in 1> $null 4> $null 5> $null 6> $null 
+Invoke-Expression "cl /nologo $name" -ErrorVariable output
 
-Get-Content .\input.txt | & $exe
-
-# Character limit break
-$data = Get-Content $in
-foreach ($line in $data) {
-    if ($line.Length -gt 80) {
-        Write-Host -ForegroundColor DarkYellow "`nLine exceeds 80 characters"
-        break
+if (!$LASTEXITCODE) {
+    # Run program with input.txt as stdin, save output
+    $output += "`n" + ($stdin | & $exe)
+    # Character limit break
+    $data = Get-Content $item
+    foreach ($line in $data) {
+        if ($line.Length -gt 80) {
+            $output += Write-Output "`nLine exceeds 80 characters`n"
+            break
+        }
     }
+        
+}# run if compile fails
+else {
+    Write-Host -ForegroundColor Red ("Compile failed for " + $item)
 }
+
+# Prepends the program output to the c file
+Write-Output $output
+    
+# Clean directory
+Remove-Item *.exe
+Remove-Item *.obj

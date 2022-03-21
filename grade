@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [[ $# -eq 0 ]]; then
+    echo "Parameters: [file] [[input] defaults to ./input.txt]"
+    exit 1
+fi
+
 # Grab arguments
 file=$1
 # Grab input file if provided, else assumed to be ./input.txt

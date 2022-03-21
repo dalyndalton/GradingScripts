@@ -1,5 +1,5 @@
-$in = $args[0]
-$stdin = $args[1]
+$in = $args[1]
+$stdin = $args[0]
 
 
 code $in -r
@@ -13,12 +13,12 @@ Invoke-Expression "cl /nologo $name" -ErrorVariable output
 
 if (!$LASTEXITCODE) {
     # Run program with input.txt as stdin, save output
-    $output += "`n" + ($stdin | & $exe)
+    $output += "`n" + (Get-Content $stdin | & $exe)
     # Character limit break
     $data = Get-Content $item
     foreach ($line in $data) {
         if ($line.Length -gt 80) {
-            $output += Write-Output "`nLine exceeds 80 characters`n"
+            $output += Write-Host -ForegroundColor Yellow "`nLine exceeds 80 characters`n" 
             break
         }
     }

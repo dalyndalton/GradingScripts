@@ -2,6 +2,7 @@
 
 if [[ $# -eq 0 ]]; then
     echo "Parameters: [file] [[input] defaults to ./input.txt]"
+    echo "Each line in [input] will be run individually, include newlines if needed"
     exit 1
 fi
 
@@ -23,8 +24,10 @@ code "$file" -r
 # compile using gcc
 # only displays erros in compiling
 gcc "$file" -o "$exe" -lm >/dev/null 2>>"$err"
+
 # Run program
-cat "$input" | "./$exe" 2>>"$err"
+cat "$input" | while read line; do
+    cat "$line" | "./$exe" 2>>"$err"
 
 # clean up
 rm "$exe" 2>/dev/null

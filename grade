@@ -28,6 +28,7 @@ gcc "$file" -o "$exe" -lm >/dev/null 2>>"$err"
 # Run program
 cat "$input" | while read line; do
     echo "$line" | "./$exe" 2>>"$err"
+    echo ""
 done
 
 # clean up
@@ -47,7 +48,7 @@ fi
 # Check for 80 character limit
 cat "$file" | while read line; do
     count=$(echo "$line" | wc -c)
-    if [ $count -gt 81 ]; then
+    if [ $count -gt 82 ]; then
         echo -e "\033[0;33mLine exceeds 80 characters"
         break
     fi

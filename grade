@@ -27,7 +27,8 @@ gcc "$file" -o "$exe" -lm >/dev/null 2>>"$err"
 
 # Run program
 cat "$input" | while read line; do
-    cat "$line" | "./$exe" 2>>"$err"
+    echo "$line" | "./$exe" 2>>"$err"
+done
 
 # clean up
 rm "$exe" 2>/dev/null
